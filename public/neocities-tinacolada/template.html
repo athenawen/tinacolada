@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <!-- Google font -->
+  <link href="https://fonts.googleapis.com/css2?family=Unkempt:wght@400;700&display=swap" rel="stylesheet">
+
+  <title>Site Template</title>
+
+  <style>
+    /* ==================================================
+       1) RESET
+       Removes default browser spacing and makes sizing
+       easier to control.
+    ================================================== */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* ==================================================
+       2) EASY-TO-EDIT VARIABLES
+       Replace these values to customize the whole layout
+       without digging through all the CSS.
+    ================================================== */
+    :root {
+      --font-main: 'Unkempt', cursive;
+
+      --page-bg-image: url(https://i.pinimg.com/736x/c5/11/da/c511da71563fff19082c681418129a65.jpg);
+      --header-bg-image: url(https://i.pinimg.com/1200x/cb/93/9d/cb939d65557f7ccde601e346ac565896.jpg);
+      --nav-bg-image: url(https://i.pinimg.com/736x/61/08/c6/6108c6cead23db25bcf646af69366c31.jpg);
+      --content-bg-image: url(https://i.imgur.com/8LVxJ4E.jpeg);
+
+      --hero-left-image: url(https://i.imgur.com/6TXneQx.png);
+      --hero-right-image: url(https://i.imgur.com/psHjiYA.png);
+      --divider-image: url(https://i.imgur.com/kNwIOSP.png);
+      --nav-icon-image: url(https://i.imgur.com/jPNNBtg.png);
+
+      --color-page-text: #82BD7D;
+      --color-link: #ffbad6;
+      --color-link-hover: #fd5398;
+      --color-title: #f0ff7e;
+      --color-title-outline: #ff68a6;
+      --color-button-text: #d18aa6;
+      --color-heading: #ff68a6;
+      --color-body-text: #bba68f;
+
+      --container-width: 760px;
+      --container-radius: 12px;
+      --card-radius: 18px;
+    }
+
+    /* ==================================================
+       3) PAGE STYLING
+       Controls the full page background and overall text.
+    ================================================== */
+    body {
+      font-family: var(--font-main);
+      font-weight: 700;
+      background: #ffffff var(--page-bg-image);
+      background-size: auto 80%;
+      background-position: center;
+      display: flex;
+      justify-content: center;
+      letter-spacing: 1px;
+      text-shadow: 0 0 1px;
+      color: var(--color-page-text);
+      padding: 8px 0;
+    }
+
+    /* Link styling */
+    a:link,
+    a:visited,
+    a:active {
+      color: var(--color-link);
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    a:hover {
+      color: var(--color-link-hover);
+      text-decoration: underline;
+    }
+
+    /* ==================================================
+       4) MAIN PAGE CONTAINER
+       This is the fixed frame of the site.
+    ================================================== */
+    .code-button{
+      position: absolute;
+      top: 3vh;
+      left: 2vw;
+      text-align: center;
+      z-index: 1000;
+    }
+    .code-button a{
+      text-decoration: underline;
+      font-size: 28px;
+      color: #ff68a6;
+    }
+    
+    .code-button a:hover{
+      color: #ff94c0;
+    }
+    
+    .site-shell {
+      width: var(--container-width);
+      max-width: 105%;
+      background-color: #fff;
+      border: 3px solid #ffffff;
+      border-radius: var(--container-radius);
+      height: calc(100vh - 16px);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    /* ==================================================
+       5) HEADER / BANNER
+       Top image area with the site title.
+    ================================================== */
+    .site-header {
+      width: 100%;
+      height: 150px;
+      background: var(--header-bg-image) center / cover no-repeat;
+      border-bottom: 2px solid #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+    }
+
+    .site-title {
+      font-family: var(--font-main);
+      font-size: 120px;
+      font-weight: 1000;
+      letter-spacing: 3px;
+      color: var(--color-title);
+      -webkit-text-stroke: 2.8px var(--color-title-outline);
+    }
+
+    /* ==================================================
+       6) NAVIGATION STRIP
+       Holds the navigation buttons and optional icons.
+    ================================================== */
+    .nav-strip {
+      background: var(--nav-bg-image) center / cover no-repeat;
+      padding: 12px 14px 14px;
+      border-bottom: 2px solid #fff;
+    }
+
+    .nav-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .nav-button {
+      min-width: 180px;
+      padding: 10px 16px;
+      background: #fff;
+      border: 2px solid rgba(255, 182, 213, 0.85);
+      border-radius: 16px;
+      box-shadow: 0 3px 0 rgba(255, 182, 213, 0.35);
+      text-align: center;
+      font-size: 22px;
+      color: var(--color-button-text);
+      letter-spacing: 1px;
+      transition: transform 0.08s ease, box-shadow 0.08s ease;
+    }
+
+    .nav-button:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 5px 0 rgba(255, 182, 213, 0.35);
+    }
+
+    .nav-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--nav-icon-image) center / contain no-repeat;
+      border: none;
+      box-shadow: none;
+      flex-shrink: 0;
+    }
+
+    /* ==================================================
+       7) SCROLLABLE CONTENT AREA
+       This is the inside section that scrolls.
+    ================================================== */
+    .content-wrap {
+      background: var(--content-bg-image) center / cover no-repeat;
+      padding: 18px;
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* Main white content card */
+    .content-card {
+      background: rgba(255, 255, 255, 0.92);
+      border-radius: var(--card-radius);
+      padding: 20px 0;
+      position: relative;
+    }
+
+    /* ==================================================
+       8) HERO SECTION
+       Top section with left image, intro text, right image.
+    ================================================== */
+    .hero-section {
+      display: grid;
+      grid-template-columns: 180px 1fr 120px;
+      gap: 14px;
+      align-items: center;
+      padding: 0 0 6px;
+    }
+
+    .hero-image-left {
+      width: 135%;
+      aspect-ratio: 1 / 1.15;
+      background: var(--hero-left-image) center / contain no-repeat;
+      margin-left: -12px;
+    }
+
+    .hero-image-right {
+      width: 90%;
+      aspect-ratio: 1 / 1;
+      background: var(--hero-right-image) center / contain no-repeat;
+      margin-left: -20px;
+    }
+
+    .hero-text {
+      text-align: left;
+      padding: 6px 0 6px 8px;
+      text-shadow: none;
+    }
+
+    /* ==================================================
+       9) TEXT STYLES
+       Shared heading and paragraph styles.
+    ================================================== */
+    .section-heading {
+      font-size: 34px;
+      color: var(--color-heading);
+      letter-spacing: 2px;
+      margin-bottom: 8px;
+    }
+
+    .body-text {
+      font-size: 16px;
+      line-height: 1.45;
+      font-weight: 700;
+      color: var(--color-body-text);
+      opacity: 0.92;
+      padding-right: 15px;
+    }
+
+    /* ==================================================
+       10) DIVIDER ROW
+       Decorative divider images under the intro text.
+    ================================================== */
+    .divider-row {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 0;
+      width: min(520px, 100%);
+      margin: 17px auto 10px;
+    }
+
+    .divider {
+      width: 50%;
+      height: 80px;
+      background: var(--divider-image) center / contain no-repeat;
+      opacity: 0.95;
+    }
+
+    .divider + .divider {
+      margin-left: -18px;
+    }
+
+    /* ==================================================
+       11) ABOUT SECTION
+       Main paragraph section below the hero.
+    ================================================== */
+    .about-section {
+      text-align: center;
+      padding: 8px 12px 4px;
+      text-shadow: none;
+    }
+
+    .about-section .section-heading {
+      font-size: 32px;
+      margin-top: 6px;
+    }
+
+    .about-text {
+      text-align: left;
+      padding: 10px 80px;
+    }
+
+    /* ==================================================
+       12) IMAGE GALLERY
+       Row of 3 square images under the about section.
+    ================================================== */
+     .image-gallery {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        padding: 20px 35px 6px;
+        max-width: 720px;
+        margin: 0 auto;
+      }
+
+      .image-box {
+        background: transparent;
+        height: 290px; /* same height for all 3 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+      }
+
+      .image-box img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: cover; /* fills box evenly */
+      }
+
+    /* ==================================================
+       13) MOBILE RESPONSIVE RULES
+       Adjusts layout for smaller screens.
+    ================================================== */
+    @media (max-width: 740px) {
+      .hero-section {
+        grid-template-columns: 1fr;
+      }
+
+      .hero-image-left,
+      .hero-image-right {
+        max-width: 240px;
+        margin: 0 auto;
+      }
+
+      .nav-button {
+        min-width: 150px;
+      }
+
+      .image-gallery {
+        grid-template-columns: 1fr;
+        max-width: 320px;
+      }
+
+      .about-text {
+        padding: 10px 24px;
+      }
+
+      .site-title {
+        font-size: 72px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="code-button">
+    <a href="https://pastebin.com/JDBpNzN8" target="_blank">
+      <span>click me for the code!</span>
+    </a>
+  </div>
+  <!-- ==================================================
+       MAIN SITE FRAME
+       Everything on the page lives here.
+  ================================================== -->
+  <div class="site-shell">
+
+    <!-- Header / title area -->
+    <header class="site-header">
+      <div class="site-title">site name</div>
+    </header>
+
+    <!-- Navigation area -->
+    <nav class="nav-strip">
+      <div class="nav-row">
+        <a class="nav-button" href="YOUR_LINK_1_HERE">button</a>
+        <div class="nav-icon" title="optional decorative icon"></div>
+
+        <a class="nav-button" href="YOUR_LINK_2_HERE">button</a>
+        <div class="nav-icon" title="optional decorative icon"></div>
+
+        <a class="nav-button" href="YOUR_LINK_3_HERE">button</a>
+      </div>
+    </nav>
+
+    <!-- Scrollable page content -->
+    <main class="content-wrap">
+      <div class="content-card">
+
+        <!-- Hero / intro section -->
+        <section class="hero-section">
+          <div class="hero-image-left" title="left decorative image"></div>
+
+          <div class="hero-text">
+            <div class="section-heading">welcome!</div>
+            <div class="body-text">
+              Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+              Etiam quis ante sodales, consectetur risus sit amet, rutrum metus.
+              Sed id pellentesque ex. Aenean ornare, lorem vel tempor luctus,
+              turpis diam sollicitudin orci, a laoreet eros ipsum vel eros.
+              In sit amet placerat diam.
+            </div>
+
+            <!-- Decorative divider -->
+            <div class="divider-row">
+              <div class="divider" title="decorative divider"></div>
+              <div class="divider" title="decorative divider"></div>
+            </div>
+          </div>
+
+          <div class="hero-image-right" title="right decorative image"></div>
+        </section>
+
+        <!-- About section -->
+        <section class="about-section">
+          <div class="section-heading">about me</div>
+          <div class="body-text about-text">
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam quis
+            ante sodales, consectetur risus sit amet, rutrum metus. Sed id
+            pellentesque ex. Aenean ornare, lorem vel tempor luctus, turpis diam
+            sollicitudin orci, a laoreet eros ipsum vel eros. In sit amet
+            placerat diam. Praesent diam nisl, pretium sed sapien sed, imperdiet
+            molestie quam.
+          </div>
+        </section>
+
+        <!-- 3-image gallery -->
+        <section class="image-gallery">
+          <div class="image-box">
+            <img src="https://i.imgur.com/6bC6CIT.jpeg" alt="image 1">
+          </div>
+
+          <div class="image-box">
+            <img src="https://i.pinimg.com/736x/af/69/1b/af691b7fcb863eda30eff39b3406fd19.jpg" alt="image 2">
+          </div>
+
+          <div class="image-box">
+            <img src="https://i.pinimg.com/736x/45/fe/d7/45fed79247ee8d4769e57dd142b9b39c.jpg" alt="image 3">
+          </div>
+        </section>
+
+      </div>
+    </main>
+  </div>
+
+</body>
+</html>

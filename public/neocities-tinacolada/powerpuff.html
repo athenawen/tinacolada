@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>Slideshow Example</title>
+  <link rel="icon" href="pinacolada.png">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+    .slideshow-container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .slide {
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+    .slide.active {
+      display: block;
+    }
+    /* Navigation buttons */
+    .prev, .next {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      padding: 1rem;
+      cursor: pointer;
+      text-decoration: none;
+      font-size: 2rem;
+      z-index: 1001;
+    }
+    .prev { left: 1rem; }
+    .next { right: 1rem; }
+
+    /* Slide 1 styles (first slide content) */
+    .slide1-body {
+      background: url("powerpuffbg.gif") no-repeat center/cover;
+      background-size: cover;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .slide1-body .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .slide1-body .return-button {
+      position: absolute;
+      top: 85vh;
+      left: 5vw;
+      font-family: courier, sans-serif;
+      font-size: 5rem;
+      color: white;
+      background: transparent;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-shadow: 1px 1px 2px rgba(123,123,123,0.7);
+      transition: all 0.2s;
+      z-index: 1002;
+      text-decoration: underline;
+    }
+    .slide1-body .return-button:hover {
+      text-decoration: underline dotted;
+    }
+    .slide1-body marquee {
+      width: 100%;
+      overflow: hidden;
+      z-index: 10;
+      position: absolute;
+      top: 0;
+    }
+    .slide1-body .main {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+    .slide1-body .main img {
+      width: 100vw;
+      height: auto;
+      display: block;
+    }
+    
+    .slide2-body {
+      background: url("powerpuffbg.gif") no-repeat center/cover;
+      background-size: cover;
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .slide2-body .container {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+    .slide2-body .return-button {
+      position: absolute;
+      top: 85vh;
+      left: 5vw;
+      font-family: courier, sans-serif;
+      font-size: 5rem;
+      color: white;
+      background: transparent;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-shadow: 1px 1px 2px rgba(123,123,123,0.7);
+      transition: all 0.2s;
+      z-index: 1002;
+      text-decoration: underline;
+    }
+    .slide2-body .return-button:hover {
+      text-decoration: underline dotted;
+    }
+    
+    .slide2-body .main {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+    .slide2-body .main img {
+      width: 100vw;
+      height: auto;
+      display: block;
+    }
+    
+  </style>
+</head>
+<body>
+  <div class="slideshow-container">
+    <!-- Slide 1 -->
+    <div class="slide slide1 active">
+      <div class="slide1-body">
+        <a href="/collections/figurines/figurines.html" class="return-button">return</a>
+        <div class="container">
+          <marquee behavior="scroll" direction="right" scrollamount="2" scrolldelay="5" truespeed loop="infinite">
+            <img src="pggif.png" alt="">
+          </marquee>
+          <div class="main">
+            <img src="powerpuff.png" alt="main">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Slide 2 (example) -->
+    <div class="slide slide2 active">
+      <div class="slide2-body">
+        <a href="/collections/figurines/figurines.html" class="return-button">return</a>
+        <div class="container">
+          <div class="main">
+            <img src="wearesocute.png" alt="main">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Navigation -->
+    <a class="prev">&#10094;</a>
+    <a class="next">&#10095;</a>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    const prev = document.querySelector('.prev');
+    const next = document.querySelector('.next');
+    let current = 0;
+
+    function showSlide(index) {
+      slides.forEach((s, i) => s.classList.toggle('active', i === index));
+    }
+
+    prev.addEventListener('click', () => {
+      current = (current - 1 + slides.length) % slides.length;
+      showSlide(current);
+    });
+
+    next.addEventListener('click', () => {
+      current = (current + 1) % slides.length;
+      showSlide(current);
+    });
+
+    // Optional: Auto-advance every 10 seconds
+    // setInterval(() => { next.click(); }, 10000);
+  </script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>tinacolada</title>
+  <link rel="icon" href="pinacolada.png">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    body {
+      background: url("powerpuffbg.gif") no-repeat center/cover;
+      background-size: 100vw auto;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    .main {
+      position: absolute;
+      top: 50vh;
+      left: 50vw;
+      transform: translate(-50%, -50%);
+      z-index: -10;
+    }
+    .main img {
+      width: 100vw;
+      height: auto;
+      display: block;
+    }
+      
+    .return-button {
+      position: absolute;
+      top: 85vh;
+      left: 5vw;
+      font-family: courier, sans-serif;
+      font-size: 5rem;
+      color: white;
+      background: transparent;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-shadow: 1px 1px 2px rgba(123, 123, 123, 0.7);
+      transition: all 0.2s;
+      z-index: 1000; 
+      text-decoration: underline;
+    }
+    .return-button:hover {
+      text-decoration: underline dotted; 
+    }
+  </style>
+</head>
+<body>
+  <a href="/figurines.html" class="return-button">
+  return
+    </a>
+    
+  <div class="container">
+    <marquee
+        behavior="scroll"
+        direction="right"      
+        scrollamount="2"
+        scrolldelay="5"
+        truespeed
+        loop="infinite"     
+        style="width:100%; overflow:hidden; z-index: 10"
+    >
+  <img src="pggif.png" alt="">
+</marquee>
+    <div class="main">
+        <img src="powerpuff.png" alt="main">
+    </div>
+  </div>
+</body>
+</html>

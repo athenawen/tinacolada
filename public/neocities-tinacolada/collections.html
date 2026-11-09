@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script type="text/javascript">
+            
+//underwater cursor script
+var colours=new Array("#49c1e8", "#49c1e8", "lightblue", "lightblue", "lightblue");
+var bubbles=66;
+var over_or_under="over";
+var x=ox=400;
+var y=oy=300;
+var swide=800;
+var shigh=600;
+var sleft=sdown=0;
+var bubb=new Array();
+var bubbx=new Array();
+var bubby=new Array();
+var bubbs=new Array();
+var sploosh=false;
+
+function addLoadEvent(funky) {
+  var oldonload=window.onload;
+  if (typeof(oldonload)!='function') window.onload=funky;
+  else window.onload=function() {
+    if (oldonload) oldonload();
+    funky();
+  }
+}
+
+addLoadEvent(buble);
+
+function buble() { if (document.getElementById) {
+  var i, rats, div;
+  for (i=0; i<bubbles; i++) {
+    rats=createDiv("3px", "3px");
+    rats.style.visibility="hidden";
+	rats.style.zIndex=(over_or_under=="over")?"1001":"0";
+
+    div=createDiv("auto", "auto");
+    rats.appendChild(div);
+    div=div.style;
+    div.top="1px";
+    div.left="0px";
+    div.bottom="1px";
+    div.right="0px";
+    div.borderLeft="1px solid "+colours[3];
+    div.borderRight="1px solid "+colours[1];
+
+    div=createDiv("auto", "auto");
+    rats.appendChild(div);
+    div=div.style;
+    div.top="0px";
+    div.left="1px";
+    div.right="1px";
+    div.bottom="0px"
+    div.borderTop="1px solid "+colours[0];
+    div.borderBottom="1px solid "+colours[2];
+
+    div=createDiv("auto", "auto");
+    rats.appendChild(div);
+    div=div.style;
+    div.left="1px";
+    div.right="1px";
+    div.bottom="1px";
+    div.top="1px";
+    div.backgroundColor=colours[4];
+    if (navigator.appName=="Microsoft Internet Explorer") div.filter="alpha(opacity=50)";
+    else div.opacity=0.5;
+    document.body.appendChild(rats);
+    bubb[i]=rats.style;
+  }
+  set_scroll();
+  set_width();
+  bubble();
+}}
+
+function bubble() {
+  var c;
+  if (Math.abs(x-ox)>1 || Math.abs(y-oy)>1) {
+    ox=x;
+    oy=y;
+    for (c=0; c<bubbles; c++) if (!bubby[c]) {
+      bubb[c].left=(bubbx[c]=x)+"px";
+      bubb[c].top=(bubby[c]=y-3)+"px";
+      bubb[c].width="10px";
+      bubb[c].height="10px"
+      bubb[c].visibility="visible";
+      bubbs[c]=5;
+      break;
+    }
+  }
+  for (c=0; c<bubbles; c++) if (bubby[c]) update_bubb(c);
+  setTimeout("bubble()", 40);
+}
+
+document.onmousedown=splash;
+document.onmouseup=function(){clearTimeout(sploosh);};
+
+function splash() {
+  ox=-1;
+  oy=-1;
+  sploosh=setTimeout('splash()', 100);
+}
+
+function update_bubb(i) {
+  if (bubby[i]) {
+    bubby[i]-=bubbs[i]/2+i%2;
+    bubbx[i]+=(i%5-2)/5;
+    if (bubby[i]>sdown && bubbx[i]>sleft && bubbx[i]<sleft+swide+bubbs[i]) {
+	  if (Math.random()<bubbs[i]/shigh*2 && bubbs[i]++<8) {
+		bubb[i].width=bubbs[i]+"px";
+		bubb[i].height=bubbs[i]+"px";
+	  }
+      bubb[i].top=bubby[i]+"px";
+      bubb[i].left=bubbx[i]+"px";
+    }
+    else {
+      bubb[i].visibility="hidden";
+      bubby[i]=0;
+      return;
+    }
+  }
+}
+
+document.onmousemove=mouse;
+function mouse(e) {
+  if (e) {
+    y=e.pageY;
+    x=e.pageX;
+  }
+  else {
+    set_scroll();
+    y=event.y+sdown;
+    x=event.x+sleft;
+  }
+}
+
+window.onresize=set_width;
+function set_width() {
+  var sw_min=999999;
+  var sh_min=999999;
+  if (document.documentElement && document.documentElement.clientWidth) {
+    if (document.documentElement.clientWidth>0) sw_min=document.documentElement.clientWidth;
+    if (document.documentElement.clientHeight>0) sh_min=document.documentElement.clientHeight;
+  }
+  if (typeof(self.innerWidth)=='number' && self.innerWidth) {
+    if (self.innerWidth>0 && self.innerWidth<sw_min) sw_min=self.innerWidth;
+    if (self.innerHeight>0 && self.innerHeight<sh_min) sh_min=self.innerHeight;
+  }
+  if (document.body.clientWidth) {
+    if (document.body.clientWidth>0 && document.body.clientWidth<sw_min) sw_min=document.body.clientWidth;
+    if (document.body.clientHeight>0 && document.body.clientHeight<sh_min) sh_min=document.body.clientHeight;
+  }
+  if (sw_min==999999 || sh_min==999999) {
+    sw_min=800;
+    sh_min=600;
+  }
+  swide=sw_min;
+  shigh=sh_min;
+}
+
+window.onscroll=set_scroll;
+function set_scroll() {
+  if (typeof(self.pageYOffset)=='number') {
+    sdown=self.pageYOffset;
+    sleft=self.pageXOffset;
+  }
+  else if (document.body && (document.body.scrollTop || document.body.scrollLeft)) {
+    sdown=document.body.scrollTop;
+    sleft=document.body.scrollLeft;
+  }
+  else if (document.documentElement && (document.documentElement.scrollTop || document.documentElement.scrollLeft)) {
+    sleft=document.documentElement.scrollLeft;
+    sdown=document.documentElement.scrollTop;
+  }
+  else {
+    sdown=0;
+    sleft=0;
+  }
+}
+
+function createDiv(height, width) {
+  var div=document.createElement("div");
+  div.style.position="absolute";
+  div.style.height=height;
+  div.style.width=width;
+  div.style.overflow="hidden";
+  div.style.backgroundColor="transparent";
+  return (div);
+}
+</script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8">
+  <title>tinacolada</title>
+  <link rel="icon" href="/pinacolada.png">
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+    body {
+      background: url("/collections/collections.png") no-repeat center/cover;
+      background-size: 100vw auto;
+      background-size: cover;
+      background-position: center center;
+      background-repeat: no-repeat;
+    }
+    .container {
+      position: relative;
+      width: 100vw;
+      height: 100vh;
+    }
+    .surfcat {
+      position: absolute;
+      top: 10vh;
+      left: -4vw;
+    }
+    .surfcat img {
+      width: 35vw;
+      height: auto;
+      display: block;
+      opacity: 0.75;
+      transition: none !important;
+    }
+    .surfcat a {
+      pointer-events: none !important;
+    }
+    
+    .surfcat img:hover {
+      opacity: 0.75 !important;
+      cursor: default !important;
+    }
+    .camera {
+      position: absolute;
+      top: 45vh;
+      left: 44vw;
+    }
+    .camera img {
+      width: 33vw;
+      height: auto;
+      display: block;
+      opacity: 0.6;
+    }
+    .calico {
+      position: absolute;
+      top: 28.7vh;
+      left: 40vw;
+      z-index: 1;
+    }
+    .calico img {
+      width: 28vh;
+      height: auto;
+      display: block;
+      opacity: 0.6;
+      rotate: 5deg;
+    }
+    .hairclip {
+      position: absolute;
+      top: 62vh;
+      left: 30.5vw;
+    }
+    .hairclip img {
+      width: 33vh;
+      height: auto;
+      display: block;
+      opacity: 0.6;
+    }
+    .cd {
+      position: absolute;
+      top: 8vh;
+      left: 76.3vw;
+    }
+    .cd img {
+      width: 33vh;
+      height: auto;
+      display: block;
+      opacity: 0.6;
+    }
+    .figurines {
+      position: absolute;
+      top: 27vh;
+      left: 65.5vw;
+    }
+    .figurines img {
+      width: 40.7vh;
+      height: auto;
+      display: block;
+      opacity: 0.6;
+    }
+    .plushies {
+      position: absolute;
+      top: 6.5vh;
+      left: 51.5vw;
+      rotate: -7deg;
+    }
+    .plushies img {
+      width: 38.5vh;
+      height: auto;
+      display: block;
+      opacity: 0.6;
+    }
+    .return-button {
+      position: absolute;
+      top: 85vh;
+      left: 5vw;
+      font-family: courier, sans-serif;
+      font-size: 5rem;
+      color: white;
+      background: transparent;
+      padding: 8px 12px;
+      cursor: pointer;
+      text-shadow: 1px 1px 2px rgba(123, 123, 123, 0.7);
+      transition: all 0.2s;
+      z-index: 1000; 
+      text-decoration: underline;
+    }
+    
+    .return-button:hover {
+      text-decoration: underline dotted; 
+    }
+
+
+    /* button‐style hover (unchanged) */
+    .container img {
+      cursor: pointer;
+      transition: opacity 0.2s ease-in-out;
+      border: none;
+      background: none;
+    }
+    .container img:hover {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+<a href="/index.html" class="return-button">
+  return
+</a>
+  <div class="container">
+    <div class="surfcat">
+        <img src="/collections/surfcat.png" alt="Plushies">
+    </div>
+    <div class="plushies">
+      <a href="plush.html">
+        <img src="/collections/plush.png" alt="Plushies">
+      </a>
+    </div>
+    <div class="camera">
+      <a href="camera.html">
+        <img src="/collections/camera.png" alt="Photos">
+      </a>
+    </div>
+    <div class="figurines">
+      <a href="/figurines.html">
+        <img src="/collections/figurine.png" alt="Figurines">
+      </a>
+    </div>
+    <div class="calico">
+      <a href="calico.html">
+        <img src="/collections/calico.png" alt="Calico">
+      </a>
+    </div>
+    <div class="hairclip">
+      <a href="hairclip.png">
+        <img src="/collections/hairclip.png" alt="Hairclips">
+      </a>
+    </div>
+    <div class="cd">
+      <a href="cd.html">
+        <img src="/collections/cd.png" alt="CD">
+      </a>
+    </div>
+  </div>
+</body>
+</html>

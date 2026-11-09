@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tinacolada</title>
+  <link rel="icon" href="/collections/pinacolada.gif">
+  <style>
+    /* reset & full-viewport */
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      font-family: sans-serif;
+    }
+    .slideshow {
+      position: relative;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* slides */
+    .slide {
+      position: absolute;
+      inset: 0;         /* top:0; right:0; bottom:0; left:0; */
+      display: none;
+    }
+    .slide.active {
+      display: block;
+    }
+
+    /* common container */
+    .container {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      height: 100%;
+      background-size: cover;
+      background-position: center;
+    }
+
+    /* per-slide backgrounds */
+    #slide1 .container {
+      background-image: url("/collections/figurines/powerpuffbg.gif");
+    }
+    #slide2 .container {
+      background-image: url("/collections/figurines/wearesocutebg.png");
+    }
+    #slide3 .container {
+      background-image: url("/collections/figurines/smbg.png");
+    }
+
+    /* image sizing */
+    .container img {
+      max-width: 100vw;
+      max-height: 100vh;
+      width: auto;
+      height: auto;
+    }
+
+    /* marquee overlay */
+    .container marquee {
+      position: absolute;
+      inset: 0;
+      z-index: 10;
+      width: 100%;
+    }
+    
+    #slide2 .container {
+      position: relative;   /* establish a positioning context */
+    }
+
+    #slide2 .container img.overlay {
+      position: absolute;
+      top: 80%;
+      left: 60%;
+      transform: translate(-50%, -50%);
+      /* adjust max-width / max-height if you need to scale it smaller: */
+      width: 120vw;
+      height: auto;
+      z-index: 0;  /* ensure it sits above the base image */
+    }
+    
+    #slide3 .container {
+      position: relative;   /* establish a positioning context */
+    }
+    @keyframes swing {
+      from { transform: translate(-50%, -50%) rotate(-9deg); }
+      to   { transform: translate(-50%, -50%) rotate(15deg); }
+    }
+
+
+    #slide3 .container img.overlay {
+      position: absolute;
+      top: 20%;
+      left: 30%;
+      /* pivot around the top center of the image */
+      transform-origin: top center;
+      /* ensure it's centered then rotated via keyframes */
+      transform: translate(-50%, -50%) rotate(0deg);
+      width: 65vw;
+      height: auto;
+      z-index: 0;
+      /* animation settings */
+      animation: swing 2s ease-in-out infinite alternate;
+    }
+    /* return link */
+    .return-button {
+      position: fixed;
+      bottom: 2rem;
+      left: 5vw;
+      font-family: courier, sans-serif;
+      font-size: 5rem;
+      color: white;
+      background: transparent;
+      padding: 8px 12px;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.7);
+      text-decoration: underline;
+      z-index: 1000;
+    }
+    .return-button:hover {
+      text-decoration: underline dotted;
+    }
+
+    /* nav buttons */
+    .nav-button {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(70,70,70,0.4);
+      border: none;
+      font-family: courier, sans-serif;
+      font-size: 2rem;
+      color: white;
+      padding: 0.5rem 1rem;
+      cursor: pointer;
+      z-index: 1000;
+    }
+    .nav-button.prev { left: 1rem; }
+    .nav-button.next { right: 1rem; }
+  </style>
+</head>
+<body>
+
+  <div class="slideshow">
+
+    <div class="slide active" id="slide1">
+      <a href="/collections.html" class="return-button">return</a>
+      <div class="container">
+        <img src="/collections/figurines/powerpuff.png" alt="Powerpuff">
+        <marquee behavior="scroll" direction="right" scrollamount="2" scrolldelay="5" truespeed loop="infinite">
+          <img src="/collections/figurines/pggif.png" alt="Powerpuff GIF">
+        </marquee>
+      </div>
+    </div>
+
+    <div class="slide" id="slide2">
+      <div class="container">
+        <!-- base image stays in the normal flow -->
+        <img style= "z-index: 10" src="/collections/figurines/wearesocute.png" alt="We Are So Cute">
+        <!-- GIF gets the overlay class -->
+        <img
+          class="overlay"
+          src="/collections/figurines/runcat.gif"
+          alt="Running Cat"
+        >
+      </div>
+    </div>
+    
+    <div class="slide" id="slide3">
+      <div class="container">
+        <!-- base image stays in the normal flow -->
+        <img style= "height: 100%" src="/collections/figurines/sm.png" alt="We Are So Cute">
+        <img
+          class="overlay swing"
+          src="/collections/figurines/branch.png"
+          alt="branch"
+        >
+      </div>
+    </div>
+    
+    <div class="slide" id="slide4">
+      <h1 style="color:white; text-align:center; padding-top:40vh;">Slide 4</h1>
+    </div>
+    <div class="slide" id="slide5">
+      <h1 style="color:white; text-align:center; padding-top:40vh;">Slide 5</h1>
+    </div>
+    <div class="slide" id="slide6">
+      <h1 style="color:white; text-align:center; padding-top:40vh;">Slide 6</h1>
+    </div>
+
+    <!-- Navigation -->
+    <button class="nav-button prev" id="prevBtn">❮ Prev</button>
+    <button class="nav-button next" id="nextBtn">Next ❯</button>
+  </div>
+
+  <script>
+    const slides = document.querySelectorAll('.slide');
+    let current = 0;
+    document.getElementById('prevBtn').onclick = () => {
+      slides[current].classList.remove('active');
+      current = (current - 1 + slides.length) % slides.length;
+      slides[current].classList.add('active');
+    };
+    document.getElementById('nextBtn').onclick = () => {
+      slides[current].classList.remove('active');
+      current = (current + 1) % slides.length;
+      slides[current].classList.add('active');
+    };
+  </script>
+
+</body>
+</html>
